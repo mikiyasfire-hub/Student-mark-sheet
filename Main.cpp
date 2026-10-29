@@ -1,68 +1,93 @@
+
 #include <iostream>
-#include <iomanip>  // Required for setw()
+#include <iomanip>
 
 using namespace std;
 
 int main() {
-    // 1. Array declarations as specified
+    // 1. Declare arrays
     char names[5][20];
     int marks[5][3];
-    
-    // Arrays to store computed results
+
     int total[5] = {0};
     double average[5] = {0.0};
-    
-    // Variables to track the top student
+
+    // 2. Variables to find the top student
     int topStudentIndex = 0;
     int maxTotal = -1;
 
-    // 2. Read student data
-    for (int i = 1; i < 5; i++) {
-        cout << "Enter name for student " <<i <<": ";
+    // 3. Read data for five students
+    for (int i = 0; i < 5; i++) {
+        cout << "Enter name for student " << i + 1 << ": ";
         cin.getline(names[i], 20);
 
-        cout << "Enter 3 marks (out of 100%) for " << names[i] << ": ";
-        for (int j = 0; j < 3; j++) {
-            cin >> marks[i][j];
-           
-            total[i] += marks[i][j]; // 3. Compute total during input
+        cout << "Enter Physics mark (0-100): ";
+        cin >> marks[i][0];
+
+        while (marks[i][0] < 0 || marks[i][0] > 100) {
+            cout << "Invalid mark! Enter a mark from 0 to 100: ";
+            cin >> marks[i][0];
         }
-        
-        // Compute average
+
+        cout << "Enter Mathematics mark (0-100): ";
+        cin >> marks[i][1];
+
+        while (marks[i][1] < 0 || marks[i][1] > 100) {
+            cout << "Invalid mark! Enter a mark from 0 to 100: ";
+            cin >> marks[i][1];
+        }
+
+        cout << "Enter English mark (0-100): ";
+        cin >> marks[i][2];
+
+        while (marks[i][2] < 0 || marks[i][2] > 100) {
+            cout << "Invalid mark! Enter a mark from 0 to 100: ";
+            cin >> marks[i][2];
+        }
+
+        // 4. Calculate the total
+        for (int j = 0; j < 3; j++) {
+            total[i] += marks[i][j];
+        }
+
+        // 5. Calculate the average
         average[i] = total[i] / 3.0;
 
-        // Track the top student based on the highest total score
+        // 6. Find the top student
         if (total[i] > maxTotal) {
             maxTotal = total[i];
             topStudentIndex = i;
         }
 
-        // Hint implementation: Ignore the newline character left in the buffer by cin >>
+        // Clear the newline left after entering marks
         cin.ignore();
+
         cout << endl;
     }
 
-    // 4. Print a neat table using setw()
-    cout << left << setw(15) << "Name" 
-         << right << setw(6) << "physics" 
-         << setw(6) << "maths" 
-         << setw(6) << "English " 
-         << setw(8) << "Total" 
-         << setw(10) << "Avg" << endl;
-         
-    cout << "--------------------------------------------------------" << endl;
+    // 7. Display the results table
+    cout << left << setw(20) << "Name"
+         << right << setw(12) << "Physics"
+         << setw(12) << "Mathematics"
+         << setw(10) << "English"
+         << setw(10) << "Total"
+         << setw(10) << "Average" << endl;
+
+    cout << "------------------------------------------------------------------------" << endl;
 
     for (int i = 0; i < 5; i++) {
-        cout << left << setw(15) << names[i]
-             << right << setw(6) << marks[i][0]
-             << setw(6) << marks[i][1]
-             << setw(6) << marks[i][2]
-             << setw(8) << total[i]
-             << setw(10) << fixed << setprecision(1) << average[i] << endl;
+        cout << left << setw(20) << names[i]
+             << right << setw(12) << marks[i][0]
+             << setw(12) << marks[i][1]
+             << setw(10) << marks[i][2]
+             << setw(10) << total[i]
+             << setw(10) << fixed << setprecision(1)
+             << average[i] << endl;
     }
 
-    // 5. Show the top student
+    // 8. Display the top student
     cout << "\nTop student: " << names[topStudentIndex] << endl;
+    cout << "Highest total: " << maxTotal << "/300" << endl;
 
     return 0;
-}//use table if you can, real subject name with <=100 marks
+}
